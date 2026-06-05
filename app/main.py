@@ -5,10 +5,10 @@ from prometheus_client import generate_latest
 import joblib 
 import pandas as pd
 import time
-from metrics import REQUEST_COUNT, PREDICITON_COUNT, PREDICTION_LATENCY 
+from metrics import REQUEST_COUNT, PREDICTION_COUNT, PREDICTION_LATENCY 
 
 app = FastAPI(title= 'Fraud Detection API')
-model = joblib('model.pkl')
+model = joblib.load('model.pkl')
 
 class Transaction(BaseModel):
     Time: float
@@ -34,7 +34,7 @@ def predict(transction: Transaction):
         probability = model.predict_proba(df)[0][1]
         
         result = "fraud" if prediction == 1 else "legit"
-        PREDICITON_COUNT.labels(result= result).inc()
+        PREDICTION_COUNT.labels(result= result).inc()
         REQUEST_COUNT.labels(endpoint="/predict", status= "200").inc()
         PREDICTION_LATENCY.observe(time.time()- start)
 
