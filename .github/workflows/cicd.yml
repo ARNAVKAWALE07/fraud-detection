@@ -1,0 +1,49 @@
+name: Fraud Detection CI/CD
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      
+      - name: Install dependences
+        run: |
+          pip install pytest fastapi httpx sckiti-learn \
+          joblib pandas numpy prometheus-client pydantic
+
+      - name: Run test
+        run: pytest tests/ -v
+      
+  build-and-push:
+    needs: test
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.arnavkawale}}
+          password: ${{ secrets.Arnnaavv@07}}
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          tags: ${{secrets.arnavkawale}}/fraud-detection:latest
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Deploy to Render
+        run: curl -X POST ${{secrets.RENDER_DEPLOY_HOOK_URL}}
+        

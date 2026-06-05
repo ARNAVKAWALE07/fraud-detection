@@ -1,0 +1,52 @@
+
+services:
+
+  #api
+  fraud-api:
+    build: .
+    ports: 
+      - "8080:8080"
+    volumes:
+      - ./app:/app
+    depends_on:
+      - redpanda
+
+  #Redpanda
+  redpanda:
+    image: redpandadata/redpanda:v23.3.11
+    ports:
+      - "9092:9092"
+      - "19092:19092"
+    command:
+      - redpanda
+      - start
+      - --overprovisioned
+      - --smp
+      - "1"
+      - --memory
+      - "512M"
+      - --reserve-memory
+      - "0M"
+      - --node-id
+      - "0"
+      - --kafka-addr
+      - "0.0.0.0:19092"
+      - --advertise-kafka-addr
+      - "localhost:19092"
+      
+
+  #Prometheus 
+  prometheus:
+    image: prom/prometheus:latest
+    ports: 
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  #Grafana
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
