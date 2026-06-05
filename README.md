@@ -2,7 +2,8 @@
 
 A production-grade machine learning system that detects fraudulent credit card transactions in real time. Built with a full MLOps pipeline — from experiment tracking to live deployment.
 
-**Live API:** https://fraud-detection-production-37fa.up.railway.app/docs
+**Live API:** https://fraud-detection-production-56b1.up.railway.app/docs
+
 
 ---
 
@@ -144,16 +145,15 @@ docker-compose up --build
 ```bash
 curl -X POST https://fraud-detection-production-37fa.up.railway.app/predict \
   -H "Content-Type: application/json" \
-  -d '{
-    "Time": 0,
-    "V1": -1.35, "V2": -0.07, "V3": 2.53, "V4": 1.37, "V5": -0.33,
-    "V6": 0.46, "V7": 0.23, "V8": 0.09, "V9": 0.36, "V10": 0.09,
-    "V11": -0.55, "V12": -0.61, "V13": -0.99, "V14": -0.31, "V15": 1.46,
-    "V16": -0.47, "V17": 0.20, "V18": 0.02, "V19": 0.40, "V20": 0.25,
-    "V21": -0.01, "V22": 0.27, "V23": -0.11, "V24": 0.06, "V25": 0.12,
-    "V26": -0.18, "V27": 0.13, "V28": -0.02,
-    "Amount": 149.62
-  }'
+  -d '{  "Time": 0,
+  "V1": -1.35, "V2": -0.07, "V3": 2.53, "V4": 1.37, "V5": -0.33,
+  "V6": 0.46, "V7": 0.23, "V8": 0.09, "V9": 0.36, "V10": 0.09,
+  "V11": -0.55, "V12": -0.61, "V13": -0.99, "V14": -0.31, "V15": 1.46,
+  "V16": -0.47, "V17": 0.20, "V18": 0.02, "V19": 0.40, "V20": 0.25,
+  "V21": -0.01, "V22": 0.27, "V23": -0.11, "V24": 0.06, "V25": 0.12,
+  "V26": -0.18, "V27": 0.13, "V28": -0.02,
+  "Amount": 149.62
+}'
 ```
 
 **Response:**
