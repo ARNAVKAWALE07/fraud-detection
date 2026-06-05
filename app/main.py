@@ -36,7 +36,7 @@ def predict(transction: Transaction):
         result = "fraud" if prediction == 1 else "legit"
         PREDICTION_COUNT.labels(result= result).inc()
         REQUEST_COUNT.labels(endpoint="/predict", status= "200").inc()
-        PREDICTION_LATENCY.obserVe(time.time()- start)
+        PREDICTION_LATENCY.observe(time.time()- start)
 
         return{
             "is_fraud": bool(prediction),
